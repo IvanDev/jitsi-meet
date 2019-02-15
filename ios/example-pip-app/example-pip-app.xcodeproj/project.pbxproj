@@ -214,7 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../scripts/run-packager.sh";
+			shellScript = "../scripts/run-packager.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -73,7 +73,7 @@ const MARGIN = 10;
  * @private
  * @type {number}
  */
-const TILE_ASPECT_RATIO = 1;
+const TILE_ASPECT_RATIO = 1.0;
 
 /**
  * Implements a React {@link Component} which displays thumbnails in a two

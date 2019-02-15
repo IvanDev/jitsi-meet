@@ -97,23 +97,23 @@ CallIntegration && MiddlewareRegistry.register(store => next => action => {
 function _appWillMount({ dispatch, getState }, next, action) {
     const result = next(action);
 
-    const context = {
-        dispatch,
-        getState
-    };
-
-    const delegate = {
-        _onPerformSetMutedCallAction,
-        _onPerformEndCallAction
-    };
-
-    const subscriptions
-        = CallIntegration.registerSubscriptions(context, delegate);
-
-    subscriptions && dispatch({
-        type: _SET_CALL_INTEGRATION_SUBSCRIPTIONS,
-        subscriptions
-    });
+    // const context = {
+    //     dispatch,
+    //     getState
+    // };
+    //
+    // const delegate = {
+    //     _onPerformSetMutedCallAction,
+    //     _onPerformEndCallAction
+    // };
+    //
+    // const subscriptions
+    //     = CallIntegration.registerSubscriptions(context, delegate);
+    //
+    // subscriptions && dispatch({
+    //     type: _SET_CALL_INTEGRATION_SUBSCRIPTIONS,
+    //     subscriptions
+    // });
 
     return result;
 }
@@ -137,13 +137,13 @@ function _conferenceFailed(store, next, action) {
     // XXX Certain CONFERENCE_FAILED errors are recoverable i.e. they have
     // prevented the user from joining a specific conference but the app may be
     // able to eventually join the conference.
-    if (!action.error.recoverable) {
-        const { callUUID } = action.conference;
-
-        if (callUUID) {
-            CallIntegration.reportCallFailed(callUUID);
-        }
-    }
+    // if (!action.error.recoverable) {
+    //     const { callUUID } = action.conference;
+    //
+    //     if (callUUID) {
+    //         CallIntegration.reportCallFailed(callUUID);
+    //     }
+    // }
 
     return result;
 }
@@ -164,11 +164,11 @@ function _conferenceFailed(store, next, action) {
 function _conferenceJoined(store, next, action) {
     const result = next(action);
 
-    const { callUUID } = action.conference;
-
-    if (callUUID) {
-        CallIntegration.reportConnectedOutgoingCall(callUUID);
-    }
+    // const { callUUID } = action.conference;
+    //
+    // if (callUUID) {
+    //     CallIntegration.reportConnectedOutgoingCall(callUUID);
+    // }
 
     return result;
 }
@@ -189,11 +189,11 @@ function _conferenceJoined(store, next, action) {
 function _conferenceLeft(store, next, action) {
     const result = next(action);
 
-    const { callUUID } = action.conference;
-
-    if (callUUID) {
-        CallIntegration.endCall(callUUID);
-    }
+    // const { callUUID } = action.conference;
+    //
+    // if (callUUID) {
+    //     CallIntegration.endCall(callUUID);
+    // }
 
     return result;
 }
@@ -214,50 +214,50 @@ function _conferenceLeft(store, next, action) {
 function _conferenceWillJoin({ dispatch, getState }, next, action) {
     const result = next(action);
 
-    const { conference } = action;
-    const state = getState();
-    const { callHandle, callUUID } = state['features/base/config'];
-    const url = getInviteURL(state);
-    const handle = callHandle || url.toString();
-    const hasVideo = !isVideoMutedByAudioOnly(state);
-
-    // When assigning the call UUID, do so in upper case, since iOS will return
-    // it upper cased.
-    conference.callUUID = (callUUID || uuid.v4()).toUpperCase();
-
-    CallIntegration.startCall(conference.callUUID, handle, hasVideo)
-        .then(() => {
-            const displayName = getConferenceName(state);
-            const muted
-                = isLocalTrackMuted(
-                    state['features/base/tracks'],
-                    MEDIA_TYPE.AUDIO);
-
-            CallIntegration.updateCall(
-                conference.callUUID,
-                {
-                    displayName,
-                    hasVideo
-                });
-            CallIntegration.setMuted(conference.callUUID, muted);
-        })
-        .catch(error => {
-            // Currently this error code is emitted only by Android.
-            if (error.code === 'CREATE_OUTGOING_CALL_FAILED') {
-                // We're not tracking the call anymore - it doesn't exist on
-                // the native side.
-                delete conference.callUUID;
-                dispatch(appNavigate(undefined));
-                Alert.alert(
-                    'Call aborted',
-                    'There\'s already another call in progress.'
-                        + ' Please end it first and try again.',
-                    [
-                        { text: 'OK' }
-                    ],
-                    { cancelable: false });
-            }
-        });
+    // const { conference } = action;
+    // const state = getState();
+    // const { callHandle, callUUID } = state['features/base/config'];
+    // const url = getInviteURL(state);
+    // const handle = callHandle || url.toString();
+    // const hasVideo = !isVideoMutedByAudioOnly(state);
+    //
+    // // When assigning the call UUID, do so in upper case, since iOS will return
+    // // it upper cased.
+    // conference.callUUID = (callUUID || uuid.v4()).toUpperCase();
+    //
+    // CallIntegration.startCall(conference.callUUID, handle, hasVideo)
+    //     .then(() => {
+    //         const displayName = getConferenceName(state);
+    //         const muted
+    //             = isLocalTrackMuted(
+    //                 state['features/base/tracks'],
+    //                 MEDIA_TYPE.AUDIO);
+    //
+    //         CallIntegration.updateCall(
+    //             conference.callUUID,
+    //             {
+    //                 displayName,
+    //                 hasVideo
+    //             });
+    //         CallIntegration.setMuted(conference.callUUID, muted);
+    //     })
+    //     .catch(error => {
+    //         // Currently this error code is emitted only by Android.
+    //         if (error.code === 'CREATE_OUTGOING_CALL_FAILED') {
+    //             // We're not tracking the call anymore - it doesn't exist on
+    //             // the native side.
+    //             delete conference.callUUID;
+    //             dispatch(appNavigate(undefined));
+    //             Alert.alert(
+    //                 'Call aborted',
+    //                 'There\'s already another call in progress.'
+    //                     + ' Please end it first and try again.',
+    //                 [
+    //                     { text: 'OK' }
+    //                 ],
+    //                 { cancelable: false });
+    //         }
+    //     });
 
     return result;
 }
@@ -270,16 +270,16 @@ function _conferenceWillJoin({ dispatch, getState }, next, action) {
  * @returns {void}
  */
 function _onPerformEndCallAction({ callUUID }) {
-    const { dispatch, getState } = this; // eslint-disable-line no-invalid-this
-    const conference = getCurrentConference(getState);
-
-    if (conference && conference.callUUID === callUUID) {
-        // We arrive here when a call is ended by the system, for example, when
-        // another incoming call is received and the user selects "End &
-        // Accept".
-        delete conference.callUUID;
-        dispatch(appNavigate(undefined));
-    }
+    // const { dispatch, getState } = this; // eslint-disable-line no-invalid-this
+    // const conference = getCurrentConference(getState);
+    //
+    // if (conference && conference.callUUID === callUUID) {
+    //     // We arrive here when a call is ended by the system, for example, when
+    //     // another incoming call is received and the user selects "End &
+    //     // Accept".
+    //     delete conference.callUUID;
+    //     dispatch(appNavigate(undefined));
+    // }
 }
 
 /**
@@ -290,15 +290,15 @@ function _onPerformEndCallAction({ callUUID }) {
  * @returns {void}
  */
 function _onPerformSetMutedCallAction({ callUUID, muted }) {
-    const { dispatch, getState } = this; // eslint-disable-line no-invalid-this
-    const conference = getCurrentConference(getState);
-
-    if (conference && conference.callUUID === callUUID) {
-        muted = Boolean(muted); // eslint-disable-line no-param-reassign
-        sendAnalytics(
-            createTrackMutedEvent('audio', 'call-integration', muted));
-        dispatch(setAudioMuted(muted, /* ensureTrack */ true));
-    }
+    // const { dispatch, getState } = this; // eslint-disable-line no-invalid-this
+    // const conference = getCurrentConference(getState);
+    //
+    // if (conference && conference.callUUID === callUUID) {
+    //     muted = Boolean(muted); // eslint-disable-line no-param-reassign
+    //     sendAnalytics(
+    //         createTrackMutedEvent('audio', 'call-integration', muted));
+    //     dispatch(setAudioMuted(muted, /* ensureTrack */ true));
+    // }
 }
 
 /**
@@ -323,15 +323,15 @@ function _onPerformSetMutedCallAction({ callUUID, muted }) {
  */
 function _setAudioOnly({ getState }, next, action) {
     const result = next(action);
-    const state = getState();
-    const conference = getCurrentConference(state);
-
-    if (conference && conference.callUUID) {
-        CallIntegration.updateCall(
-            conference.callUUID,
-            { hasVideo: !action.audioOnly });
-    }
-
+    // const state = getState();
+    // const conference = getCurrentConference(state);
+    //
+    // if (conference && conference.callUUID) {
+    //     CallIntegration.updateCall(
+    //         conference.callUUID,
+    //         { hasVideo: !action.audioOnly });
+    // }
+    //
     return result;
 }
 
@@ -351,14 +351,14 @@ function _setAudioOnly({ getState }, next, action) {
  * @returns {*} The value returned by {@code next(action)}.
  */
 function _setCallKitSubscriptions({ getState }, next, action) {
-    const { subscriptions } = getState()['features/call-integration'];
-
-    if (subscriptions) {
-        for (const subscription of subscriptions) {
-            subscription.remove();
-        }
-    }
-
+    // const { subscriptions } = getState()['features/call-integration'];
+    //
+    // if (subscriptions) {
+    //     for (const subscription of subscriptions) {
+    //         subscription.remove();
+    //     }
+    // }
+    //
     return next(action);
 }
 
@@ -376,28 +376,28 @@ function _setCallKitSubscriptions({ getState }, next, action) {
  */
 function _syncTrackState({ getState }, next, action) {
     const result = next(action);
-    const { jitsiTrack } = action.track;
-    const state = getState();
-    const conference = getCurrentConference(state);
-
-    if (jitsiTrack.isLocal() && conference && conference.callUUID) {
-        switch (jitsiTrack.getType()) {
-        case 'audio': {
-            const tracks = state['features/base/tracks'];
-            const muted = isLocalTrackMuted(tracks, MEDIA_TYPE.AUDIO);
-
-            CallIntegration.setMuted(conference.callUUID, muted);
-            break;
-        }
-        case 'video': {
-            CallIntegration.updateCall(
-                conference.callUUID,
-                { hasVideo: !isVideoMutedByAudioOnly(state) });
-            break;
-        }
-
-        }
-    }
+    // const { jitsiTrack } = action.track;
+    // const state = getState();
+    // const conference = getCurrentConference(state);
+    //
+    // if (jitsiTrack.isLocal() && conference && conference.callUUID) {
+    //     switch (jitsiTrack.getType()) {
+    //     case 'audio': {
+    //         const tracks = state['features/base/tracks'];
+    //         const muted = isLocalTrackMuted(tracks, MEDIA_TYPE.AUDIO);
+    //
+    //         CallIntegration.setMuted(conference.callUUID, muted);
+    //         break;
+    //     }
+    //     case 'video': {
+    //         CallIntegration.updateCall(
+    //             conference.callUUID,
+    //             { hasVideo: !isVideoMutedByAudioOnly(state) });
+    //         break;
+    //     }
+    //
+    //     }
+    // }
 
     return result;
 }

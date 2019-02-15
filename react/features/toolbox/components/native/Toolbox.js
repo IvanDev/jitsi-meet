@@ -233,11 +233,11 @@ class Toolbox extends Component<Props, State> {
             <View
                 pointerEvents = 'box-none'
                 style = { styles.toolbar }>
-                <ChatButton
-                    styles = { buttonStyles }
-                    toggledStyles = {
-                        this._getChatButtonToggledStyle(toggledButtonStyles)
-                    } />
+                {/*<ChatButton*/}
+                    {/*styles = { buttonStyles }*/}
+                    {/*toggledStyles = {*/}
+                        {/*this._getChatButtonToggledStyle(toggledButtonStyles)*/}
+                    {/*} />*/}
                 <AudioMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />

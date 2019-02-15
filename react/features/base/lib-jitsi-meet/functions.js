@@ -48,7 +48,6 @@ export function isAnalyticsEnabled(stateful: Function | Object) {
         disableThirdPartyRequests
     } = toState(stateful)['features/base/config'];
     const { scriptURLs } = analytics;
-
     return (
         !disableThirdPartyRequests
             && Array.isArray(scriptURLs)

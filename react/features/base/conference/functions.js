@@ -155,7 +155,6 @@ export function forEachConference(
 export function getConferenceName(stateful: Function | Object): string {
     const state = toState(stateful);
     const { callee } = state['features/base/jwt'];
-
     return state['features/base/config'].callDisplayName
                 || (callee && callee.name)
                 || state['features/base/conference'].room;

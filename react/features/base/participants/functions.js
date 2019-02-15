@@ -14,7 +14,9 @@ import {
     PARTICIPANT_ROLE
 } from './constants';
 
-declare var config: Object;
+var config = {
+    disableThirdPartyRequests: true
+};
 declare var interfaceConfig: Object;
 
 /**
