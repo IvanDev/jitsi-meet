@@ -6,7 +6,7 @@ import {
     hiddenParticipantJoined,
     hiddenParticipantLeft,
     participantJoined,
-    participantLeft
+    participantLeft, participantUpdated
 } from '../participants';
 import { toState } from '../redux';
 
@@ -17,6 +17,7 @@ import {
     JITSI_CONFERENCE_URL_KEY,
     VIDEO_QUALITY_LEVELS
 } from './constants';
+import JitsiHelper from '../../app/JitsiHelper';
 
 const logger = require('jitsi-meet-logger').getLogger(__filename);
 
@@ -80,6 +81,21 @@ export function commonUserJoinedHandling(
             role: user.getRole()
         }));
     }
+
+    // JitsiHelper.getParticipantDisplayName(displayName).then( (participantDisplayName) => {
+    //     if (user.isHidden()) {
+    //         dispatch(hiddenParticipantJoined(id, displayName));
+    //     } else {
+    //         dispatch(participantJoined({
+    //             botType: user.getBotType(),
+    //             conference,
+    //             id,
+    //             name: displayName,
+    //             presence: user.getStatus(),
+    //             role: user.getRole()
+    //         }));
+    //     }
+    // });
 }
 
 /**

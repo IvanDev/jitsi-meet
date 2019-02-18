@@ -254,7 +254,7 @@ class Conference extends Component<Props> {
                     hidden = { true }
                     translucent = { true } />
 
-                <Chat />
+                {/*<Chat />*/}
 
                 {/*
                   * The LargeVideo is the lowermost stacking layer.

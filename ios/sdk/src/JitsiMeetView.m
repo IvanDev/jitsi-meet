@@ -90,6 +90,8 @@ void registerFatalErrorHandler() {
 
 @dynamic pictureInPictureEnabled;
 
+static JitsiMeetView *_lastViewInstance;
+
 static NSString *_conferenceActivityType;
 
 static RCTBridgeWrapper *bridgeWrapper;
@@ -115,6 +117,11 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
     [Dropbox setAppKey];
 
     return YES;
+}
+
+
++(instancetype _Nullable) lastViewInstance {
+    return _lastViewInstance;
 }
 
 #pragma mark Linking delegate helpers
@@ -415,7 +422,7 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
         // Register a fatal error handler for React.
         registerFatalErrorHandler();
     });
-
+    _lastViewInstance = self;
     // Hook this JitsiMeetView into ExternalAPI.
     externalAPIScope = [NSUUID UUID].UUIDString;
     [views setObject:self forKey:externalAPIScope];

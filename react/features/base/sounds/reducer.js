@@ -77,30 +77,30 @@ ReducerRegistry.register(
  * @returns {Map<string, Sound>}
  */
 function _addOrRemoveAudioElement(state, action) {
-    const isAddAction = action.type === _ADD_AUDIO_ELEMENT;
+    // const isAddAction = action.type === _ADD_AUDIO_ELEMENT;
     const nextState = new Map(state);
-    const { soundId } = action;
-
-    const sound = nextState.get(soundId);
-
-    if (sound) {
-        if (isAddAction) {
-            nextState.set(soundId,
-                assign(sound, {
-                    audioElement: action.audioElement
-                }));
-        } else {
-            nextState.set(soundId,
-                assign(sound, {
-                    audioElement: undefined
-                }));
-        }
-    } else {
-        const actionName
-            = isAddAction ? '_ADD_AUDIO_ELEMENT' : '_REMOVE_AUDIO_ELEMENT';
-
-        logger.error(`${actionName}: no sound for id: ${soundId}`);
-    }
+    // const { soundId } = action;
+    //
+    // const sound = nextState.get(soundId);
+    //
+    // if (sound) {
+    //     if (isAddAction) {
+    //         nextState.set(soundId,
+    //             assign(sound, {
+    //                 audioElement: action.audioElement
+    //             }));
+    //     } else {
+    //         nextState.set(soundId,
+    //             assign(sound, {
+    //                 audioElement: undefined
+    //             }));
+    //     }
+    // } else {
+    //     const actionName
+    //         = isAddAction ? '_ADD_AUDIO_ELEMENT' : '_REMOVE_AUDIO_ELEMENT';
+    //
+    //     logger.error(`${actionName}: no sound for id: ${soundId}`);
+    // }
 
     return nextState;
 }
@@ -119,10 +119,10 @@ function _addOrRemoveAudioElement(state, action) {
 function _registerSound(state, action) {
     const nextState = new Map(state);
 
-    nextState.set(action.soundId, {
-        src: action.src,
-        options: action.options
-    });
+    // nextState.set(action.soundId, {
+    //     src: action.src,
+    //     options: action.options
+    // });
 
     return nextState;
 }
@@ -140,7 +140,7 @@ function _registerSound(state, action) {
 function _unregisterSound(state, action) {
     const nextState = new Map(state);
 
-    nextState.delete(action.soundId);
+    // nextState.delete(action.soundId);
 
     return nextState;
 }

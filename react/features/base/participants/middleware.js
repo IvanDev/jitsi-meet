@@ -39,6 +39,7 @@ import {
     getParticipantCount
 } from './functions';
 import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
+import JitsiHelper from '../../app/JitsiHelper';
 
 declare var APP: Object;
 
@@ -78,7 +79,7 @@ MiddlewareRegistry.register(store => next => action => {
                 local: participant.id === id,
                 raisedHand: false
             }));
-
+        _updateParticipantName(store, next, action);
         break;
     }
 
@@ -106,7 +107,7 @@ MiddlewareRegistry.register(store => next => action => {
                 APP.UI.emitEvent(UIEvents.NICKNAME_CHANGED, action.name);
             }
         }
-
+        _updateParticipantName(store, next, action);
         break;
     }
 
@@ -141,6 +142,16 @@ StateListenerRegistry.register(
                 && dispatch(participantLeft(p.id, p.conference));
         }
     });
+
+
+// MiddlewareRegistry.register(store => next => action => {
+//     switch (action.type) {
+//         case PARTICIPANT_UPDATED:
+//         case PARTICIPANT_JOINED:
+//
+//     }
+// });
+
 
 /**
  * Reset the ID of the local participant to
@@ -271,8 +282,19 @@ function _maybePlaySounds({ getState, dispatch }, action) {
  * @private
  * @returns {Object} The value returned by {@code next(action)}.
  */
-function _participantJoinedOrUpdated({ getState }, next, action) {
-    const { participant: { id, local, raisedHand } } = action;
+function _participantJoinedOrUpdated({ getState, dispatch }, next, action) {
+    const { participant: { id, local, raisedHand, cnxDisplayName } } = action;
+    _updateParticipantName({ getState, dispatch }, next, action);
+    // if ((typeof cnxDisplayName === 'undefined') && local === false) {
+    //     const prtcpnt = getParticipantById(getState(), id);
+    //
+    //     JitsiHelper.getParticipantDisplayName(prtcpnt.name, (error, displayName) => {
+    //         dispatch(participantUpdated({
+    //             id: prtcpnt.id,
+    //             cnxDisplayName: displayName
+    //         }));
+    //     });
+    // }
 
     // Send an external update of the local participant's raised hand state
     // if a new raised hand state is defined in the action.
@@ -322,6 +344,21 @@ function _participantJoinedOrUpdated({ getState }, next, action) {
     }
 
     return next(action);
+}
+
+function _updateParticipantName({ getState, dispatch }, next, action) {
+    const { participant: { id, local, cnxDisplayName } } = action;
+
+    if ((typeof cnxDisplayName === 'undefined') && local === false) {
+        const prtcpnt = getParticipantById(getState(), id);
+
+        JitsiHelper.getParticipantDisplayName(prtcpnt.name, (error, displayName) => {
+            dispatch(participantUpdated({
+                id: prtcpnt.id,
+                cnxDisplayName: displayName
+            }));
+        });
+    }
 }
 
 /**

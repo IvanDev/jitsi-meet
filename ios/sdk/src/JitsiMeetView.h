@@ -34,6 +34,8 @@
 
 @property (nonatomic) BOOL welcomePageEnabled;
 
+@property (nonatomic, copy, nullable) NSString* (^getParticipantDisplayName)(NSString* name);
+
 +             (BOOL)application:(UIApplication *_Nonnull)application
   didFinishLaunchingWithOptions:(NSDictionary *_Nonnull)launchOptions;
 
@@ -49,6 +51,8 @@
             openURL:(NSURL * _Nonnull)URL
   sourceApplication:(NSString * _Nullable)sourceApplication
          annotation:(id _Nullable)annotation __deprecated;
+
++(instancetype _Nullable) lastViewInstance;
 
 - (void)loadURL:(NSURL * _Nullable)url;
 

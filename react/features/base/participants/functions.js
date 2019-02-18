@@ -7,6 +7,11 @@ import { JitsiParticipantConnectionStatus } from '../lib-jitsi-meet';
 import { MEDIA_TYPE, shouldRenderVideoTrack } from '../media';
 import { getTrackByMediaTypeAndParticipant } from '../tracks';
 
+import JitsiHelper from '../../app/JitsiHelper';
+import {
+    participantUpdated
+} from '../participants';
+import type { Dispatch } from 'redux';
 import {
     DEFAULT_AVATAR_RELATIVE_PATH,
     LOCAL_PARTICIPANT_DEFAULT_ID,
@@ -14,9 +19,10 @@ import {
     PARTICIPANT_ROLE
 } from './constants';
 
-var config = {
+const config = {
     disableThirdPartyRequests: true
 };
+
 declare var interfaceConfig: Object;
 
 /**
@@ -180,8 +186,16 @@ export function getParticipantDisplayName(
     const participant = getParticipantById(stateful, id);
 
     if (participant) {
+        if (participant.hasOwnProperty('cnxDisplayName') && participant.cnxDisplayName !== null) {
+            return participant.cnxDisplayName;
+        }
+
         if (participant.name) {
-            return participant.name;
+            try {
+                return '000';
+            } catch (e) {
+                return participant.name;
+            }
         }
 
         if (participant.local) {
@@ -189,6 +203,7 @@ export function getParticipantDisplayName(
                 ? interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME
                 : 'me';
         }
+
     }
 
     return typeof interfaceConfig === 'object'
