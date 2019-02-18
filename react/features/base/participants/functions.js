@@ -191,11 +191,7 @@ export function getParticipantDisplayName(
         }
 
         if (participant.name) {
-            try {
-                return '000';
-            } catch (e) {
-                return participant.name;
-            }
+            return participant.name;
         }
 
         if (participant.local) {
@@ -339,4 +335,10 @@ export function shouldRenderParticipantVideo(
             === JitsiParticipantConnectionStatus.ACTIVE)
         && shouldRenderVideoTrack(videoTrack, waitForVideoStarted);
 
+}
+
+export function requestParticipantName(suggestedName, callback) {
+    JitsiHelper.getParticipantDisplayName(suggestedName, (error, displayName) => {
+        callback(displayName);
+    });
 }

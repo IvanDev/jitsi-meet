@@ -6,7 +6,8 @@ import {
     hiddenParticipantJoined,
     hiddenParticipantLeft,
     participantJoined,
-    participantLeft, participantUpdated
+    participantLeft, participantUpdated,
+    requestParticipantName
 } from '../participants';
 import { toState } from '../redux';
 
@@ -68,34 +69,20 @@ export function commonUserJoinedHandling(
         user: Object) {
     const id = user.getId();
     const displayName = user.getDisplayName();
-
-    if (user.isHidden()) {
-        dispatch(hiddenParticipantJoined(id, displayName));
-    } else {
-        dispatch(participantJoined({
-            botType: user.getBotType(),
-            conference,
-            id,
-            name: displayName,
-            presence: user.getStatus(),
-            role: user.getRole()
-        }));
-    }
-
-    // JitsiHelper.getParticipantDisplayName(displayName).then( (participantDisplayName) => {
-    //     if (user.isHidden()) {
-    //         dispatch(hiddenParticipantJoined(id, displayName));
-    //     } else {
-    //         dispatch(participantJoined({
-    //             botType: user.getBotType(),
-    //             conference,
-    //             id,
-    //             name: displayName,
-    //             presence: user.getStatus(),
-    //             role: user.getRole()
-    //         }));
-    //     }
-    // });
+    requestParticipantName(displayName, name => {
+        if (user.isHidden()) {
+            dispatch(hiddenParticipantJoined(id, name));
+        } else {
+            dispatch(participantJoined({
+                botType: user.getBotType(),
+                conference,
+                id,
+                name: name,
+                presence: user.getStatus(),
+                role: user.getRole()
+            }));
+        }
+    });
 }
 
 /**

@@ -11,11 +11,12 @@ import { JitsiConferenceEvents } from '../lib-jitsi-meet';
 import { setAudioMuted, setVideoMuted } from '../media';
 import {
     dominantSpeakerChanged,
-    getNormalizedDisplayName,
+    getNormalizedDisplayName, getParticipantById,
     participantConnectionStatusChanged,
     participantPresenceChanged,
     participantRoleChanged,
-    participantUpdated
+    participantUpdated,
+    requestParticipantName
 } from '../participants';
 import { endpointMessageReceived } from '../../subtitles';
 import { getLocalTracks, trackAdded, trackRemoved } from '../tracks';
@@ -57,6 +58,7 @@ import {
     sendLocalParticipant
 } from './functions';
 import type { Dispatch } from 'redux';
+import JitsiHelper from '../../app/JitsiHelper';
 
 const logger = require('jitsi-meet-logger').getLogger(__filename);
 
@@ -128,11 +130,17 @@ function _addConferenceListeners(conference, dispatch) {
     // Dispatches into features/base/participants follow:
     conference.on(
         JitsiConferenceEvents.DISPLAY_NAME_CHANGED,
-        (id, displayName) => dispatch(participantUpdated({
-            conference,
-            id,
-            name: getNormalizedDisplayName(displayName)
-        })));
+        (id, displayName) => {
+            requestParticipantName(displayName, name => {
+                dispatch(participantUpdated({
+                    conference,
+                    id,
+                    name: getNormalizedDisplayName(name),
+                    cnxDisplayName: name
+                }));
+            });
+
+        } );
 
     conference.on(
         JitsiConferenceEvents.DOMINANT_SPEAKER_CHANGED,

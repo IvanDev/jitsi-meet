@@ -40,6 +40,7 @@ import {
 } from './functions';
 import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
 import JitsiHelper from '../../app/JitsiHelper';
+import { appendSuffix } from '../../display-name';
 
 declare var APP: Object;
 
@@ -283,7 +284,7 @@ function _maybePlaySounds({ getState, dispatch }, action) {
  * @returns {Object} The value returned by {@code next(action)}.
  */
 function _participantJoinedOrUpdated({ getState, dispatch }, next, action) {
-    const { participant: { id, local, raisedHand, cnxDisplayName } } = action;
+    const { participant: { id, local, raisedHand } } = action;
     _updateParticipantName({ getState, dispatch }, next, action);
     // if ((typeof cnxDisplayName === 'undefined') && local === false) {
     //     const prtcpnt = getParticipantById(getState(), id);
@@ -355,8 +356,17 @@ function _updateParticipantName({ getState, dispatch }, next, action) {
         JitsiHelper.getParticipantDisplayName(prtcpnt.name, (error, displayName) => {
             dispatch(participantUpdated({
                 id: prtcpnt.id,
-                cnxDisplayName: displayName
+                cnxDisplayName: displayName,
+                name: displayName
             }));
+            if (typeof APP === 'object') {
+                APP.API.notifyDisplayNameChanged(id, {
+                    displayName: displayName,
+                    formattedDisplayName: displayName
+                });
+
+                APP.UI.changeDisplayName(id, displayName);
+            }
         });
     }
 }
