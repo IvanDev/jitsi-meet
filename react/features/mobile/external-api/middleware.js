@@ -1,6 +1,7 @@
 // @flow
 
 import {
+    CONFERENCE_DID_HANGUP,
     CONFERENCE_FAILED,
     CONFERENCE_JOINED,
     CONFERENCE_LEFT,
@@ -52,6 +53,7 @@ MiddlewareRegistry.register(store => next => action => {
         break;
     }
 
+    case CONFERENCE_DID_HANGUP:
     case CONFERENCE_JOINED:
     case CONFERENCE_LEFT:
     case CONFERENCE_WILL_JOIN:

@@ -43,6 +43,16 @@ export const CONFERENCE_JOINED = Symbol('CONFERENCE_JOINED');
 export const CONFERENCE_LEFT = Symbol('CONFERENCE_LEFT');
 
 /**
+ * The type of (redux) action which signals that user did click hangup button.
+ *
+ * {
+ *     type: CONFERENCE_DID_HANGUP,
+ *     conference: JitsiConference
+ * }
+ */
+export const CONFERENCE_DID_HANGUP = Symbol('CONFERENCE_DID_HANGUP');
+
+/**
  * The type of (redux) action which signals that a specific conference will be
  * joined.
  *

@@ -8,6 +8,7 @@ import { disconnect } from '../../base/connection';
 import { translate } from '../../base/i18n';
 import { AbstractHangupButton } from '../../base/toolbox';
 import type { AbstractButtonProps } from '../../base/toolbox';
+import { CONFERENCE_WILL_JOIN, CONFERENCE_DID_HANGUP } from '../../base/conference';
 
 /**
  * The type of the React {@code Component} props of {@link HangupButton}.
@@ -43,6 +44,9 @@ class HangupButton extends AbstractHangupButton<Props, *> {
         // FIXME: these should be unified.
         if (navigator.product === 'ReactNative') {
             this.props.dispatch(appNavigate(undefined));
+            this.props.dispatch({
+                type: CONFERENCE_DID_HANGUP
+            });
         } else {
             this.props.dispatch(disconnect(true));
         }

@@ -35,6 +35,14 @@
 - (void)conferenceJoined:(NSDictionary *)data;
 
 /**
+ * Called when user click hangup button.
+ *
+ * The `data` dictionary contains a `url` key with the conference URL.
+ */
+
+- (void)conferenceDidHangup:(NSDictionary *)data;
+
+/**
  * Called when a conference was left.
  *
  * The `data` dictionary contains a `url` key with the conference URL.

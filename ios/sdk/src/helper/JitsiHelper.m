@@ -24,8 +24,6 @@ RCT_EXPORT_METHOD(getParticipantDisplayName: (NSString *)name
     
     NSString *displayName = [[JitsiMeetView lastViewInstance] getParticipantDisplayName](name);
     NSString *result = (displayName != nil ? displayName : name);
-//    NSArray *result = @[ (displayName != nil ? displayName : name) ];
-//    callback(@[  ] );
     callback( @[[NSNull null], result] );
 }
 
