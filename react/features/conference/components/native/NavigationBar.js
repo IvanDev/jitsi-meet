@@ -12,6 +12,8 @@ import { MinimizeButton } from './MinimizeButton';
 import { isToolboxVisible } from '../../../toolbox';
 
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
+import { bottomSheetItemStylesCombined } from '../../../base/dialog';
+import { InviteButton } from '../../../invite/components';
 
 type Props = {
 
@@ -23,7 +25,9 @@ type Props = {
     /**
      * True if the navigation bar should be visible.
      */
-    _visible: boolean
+    _visible: boolean,
+
+    dispatch: Function
 };
 
 /**
@@ -40,7 +44,10 @@ class NavigationBar extends Component<Props> {
         if (!this.props._visible) {
             return null;
         }
-
+        const buttonProps = {
+            dispatch: this.props.dispatch,
+            styles: styles.navBarButton
+        };
         return (
             <View
                 pointerEvents = 'box-none'
@@ -59,10 +66,8 @@ class NavigationBar extends Component<Props> {
                     <View
                         pointerEvents = 'box-none'
                         style = { styles.navBarWrapper }>
-                        <PictureInPictureButton
-                            styles = { styles.navBarButton } />
-                        <MinimizeButton styles = { styles.navBarButton } />
-
+                        <PictureInPictureButton { ...buttonProps } />
+                        <MinimizeButton { ...buttonProps } />
                         <View
                             pointerEvents = 'box-none'
                             style = { styles.roomNameWrapper }>
@@ -72,6 +77,7 @@ class NavigationBar extends Component<Props> {
                                 { this.props._meetingName }
                             </Text>
                         </View>
+                        <InviteButton { ...buttonProps } />
                     </View>
                 </SafeAreaView>
             </View>
