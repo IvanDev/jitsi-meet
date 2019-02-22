@@ -43,6 +43,14 @@
 - (void)conferenceDidHangup:(NSDictionary *)data;
 
 /**
+ * Called when user click minimize button.
+ *
+ * The `data` dictionary contains a `url` key with the conference URL.
+ */
+
+- (void)conferenceDidMinimize:(NSDictionary *)data;
+
+/**
  * Called when a conference was left.
  *
  * The `data` dictionary contains a `url` key with the conference URL.

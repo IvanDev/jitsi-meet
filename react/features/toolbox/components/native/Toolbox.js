@@ -12,7 +12,7 @@ import { isToolboxVisible } from '../../functions';
 import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
-
+import ToggleCameraToolbarButtton from '../ToggleCameraToolbarButtton';
 import OverflowMenuButton from './OverflowMenuButton';
 import styles, {
     chatButtonOverride,
@@ -28,7 +28,7 @@ import styles, {
  * @private
  * @type number
  */
-const _BUTTON_COUNT = 4;
+const _BUTTON_COUNT = 5;
 
 /**
  * Factor relating the hangup button and other toolbar buttons.
@@ -238,11 +238,15 @@ class Toolbox extends Component<Props, State> {
                     {/*toggledStyles = {*/}
                         {/*this._getChatButtonToggledStyle(toggledButtonStyles)*/}
                     {/*} />*/}
-                <AudioMuteButton
+
+                <ToggleCameraToolbarButtton
+                    styles = { buttonStyles }
+                    toggledStyles = { toggledButtonStyles } />
+                <VideoMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
                 <HangupButton styles = { hangupButtonStyles } />
-                <VideoMuteButton
+                <AudioMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
                 <OverflowMenuButton

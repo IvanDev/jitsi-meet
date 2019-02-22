@@ -10,6 +10,7 @@ import { beginShareRoom } from '../../share-room';
 
 import { beginAddPeople } from '../actions';
 import { isAddPeopleEnabled, isDialOutEnabled } from '../functions';
+import { isLocalParticipantModerator } from '../../base/participants';
 
 type Props = AbstractButtonProps & {
 
@@ -70,12 +71,12 @@ class InviteButton extends AbstractButton<Props, *> {
             _onAddPeople,
             _onShareRoom
         } = this.props;
-
-        if (_addPeopleEnabled || _dialOutEnabled) {
-            _onAddPeople();
-        } else if (_SHARE_ROOM_TOOLBAR_BUTTON) {
-            _onShareRoom();
-        }
+        //
+        // if (_addPeopleEnabled || _dialOutEnabled) {
+        _onAddPeople();
+        // } else if (_SHARE_ROOM_TOOLBAR_BUTTON) {
+        //     _onShareRoom();
+        // }
     }
 
     /**
@@ -158,7 +159,9 @@ function _mapStateToProps(state) {
          *
          * @type {boolean}
          */
-        _dialOutEnabled: isDialOutEnabled(state)
+        _dialOutEnabled: isDialOutEnabled(state),
+
+        visible: isLocalParticipantModerator(state)
     };
 }
 

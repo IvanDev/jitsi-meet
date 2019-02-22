@@ -249,10 +249,10 @@ class Conference extends Component<Props> {
 
         return (
             <Container style = { styles.conference }>
-                <StatusBar
-                    barStyle = 'light-content'
-                    hidden = { true }
-                    translucent = { true } />
+                {/*<StatusBar*/}
+                    {/*barStyle = 'light-content'*/}
+                    {/*hidden = { true }*/}
+                    {/*translucent = { true } />*/}
 
                 {/*<Chat />*/}
 

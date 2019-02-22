@@ -49,11 +49,11 @@
         return;
     }
 
-    if (_addPeopleController != nil) {
-        return;
-    }
+//    if (_addPeopleController != nil) {
+//        return;
+//    }
 
-    _addPeopleController = [[JMAddPeopleController alloc] initWithOwner:self];
+//    _addPeopleController = [[JMAddPeopleController alloc] initWithOwner:self];
 
     @try {
         if (self.delegate
@@ -61,7 +61,7 @@
             [self.delegate beginAddPeople:_addPeopleController];
         }
     } @catch (NSException *e) {
-        [self endAddPeopleForController:_addPeopleController];
+//        [self endAddPeopleForController:_addPeopleController];
     }
 }
 

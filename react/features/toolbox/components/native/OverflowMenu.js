@@ -88,7 +88,7 @@ class OverflowMenu extends Component<Props> {
                 {/*}*/}
                 {/*<LiveStreamButton { ...buttonProps } />*/}
                 <TileViewButton { ...buttonProps } />
-                {/*<InviteButton { ...buttonProps } />*/}
+                <InviteButton { ...buttonProps } />
             </BottomSheet>
         );
     }

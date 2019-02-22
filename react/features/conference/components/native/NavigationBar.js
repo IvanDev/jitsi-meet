@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import { getConferenceName } from '../../../base/conference';
 import { PictureInPictureButton } from '../../../mobile/picture-in-picture';
+import { MinimizeButton } from './MinimizeButton';
 import { isToolboxVisible } from '../../../toolbox';
 
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
@@ -60,6 +61,8 @@ class NavigationBar extends Component<Props> {
                         style = { styles.navBarWrapper }>
                         <PictureInPictureButton
                             styles = { styles.navBarButton } />
+                        <MinimizeButton styles = { styles.navBarButton } />
+
                         <View
                             pointerEvents = 'box-none'
                             style = { styles.roomNameWrapper }>

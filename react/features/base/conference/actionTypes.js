@@ -52,6 +52,18 @@ export const CONFERENCE_LEFT = Symbol('CONFERENCE_LEFT');
  */
 export const CONFERENCE_DID_HANGUP = Symbol('CONFERENCE_DID_HANGUP');
 
+
+/**
+ * The type of (redux) action which signals that user did click minimize button.
+ *
+ * {
+ *     type: CONFERENCE_DID_HANGUP,
+ *     conference: JitsiConference
+ * }
+ */
+export const CONFERENCE_DID_MINIMIZE = Symbol('CONFERENCE_DID_MINIMIZE');
+
+
 /**
  * The type of (redux) action which signals that a specific conference will be
  * joined.
