@@ -19,7 +19,7 @@ import { setFilmstripEnabled } from '../filmstrip';
 import { setToolboxEnabled } from '../toolbox';
 import { isLocalTrackMuted } from '../base/tracks';
 import { MEDIA_TYPE } from '../base/media';
-import { UnmuteVideoDialog } from './components';
+import UnmuteVideoDialog from './components/native/UnmuteVideoDialog';
 
 MiddlewareRegistry.register(store => next => action => {
     const result = next(action);
@@ -40,10 +40,10 @@ MiddlewareRegistry.register(store => next => action => {
                     ? VIDEO_QUALITY_LEVELS.LOW
                     : VIDEO_QUALITY_LEVELS.HIGH));
 
-        // const tracks = state['features/base/tracks'];
-        // if (isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO)) {
+        const tracks = state['features/base/tracks'];
+        if (isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO)) {
             dispatch(openDialog(UnmuteVideoDialog, { dispatch }));
-        // }
+        }
 
 
         break;

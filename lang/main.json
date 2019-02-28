@@ -218,6 +218,7 @@
         "muteParticipantButton": "Mute",
         "muteParticipantDialog": "Are you sure you want to mute this participant? You won't be able to unmute them, but they can unmute themselves at any time.",
         "muteParticipantTitle": "Mute this member?",
+        "unmuteLocalVideoDialog": "Do you want to enable video?",
         "Ok": "Ok",
         "oops": "Oops!",
         "password": "Enter password",
