@@ -9,7 +9,7 @@ import {
     getCurrentConference,
     setPreferredReceiverVideoQuality
 } from '../base/conference';
-import { hideDialog, isDialogOpen } from '../base/dialog';
+import { hideDialog, isDialogOpen, openDialog } from '../base/dialog';
 import { JitsiConferenceEvents } from '../base/lib-jitsi-meet';
 import { pinParticipant } from '../base/participants';
 import { SET_REDUCED_UI } from '../base/responsive-ui';
@@ -17,6 +17,9 @@ import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 import { FeedbackDialog } from '../feedback';
 import { setFilmstripEnabled } from '../filmstrip';
 import { setToolboxEnabled } from '../toolbox';
+import { isLocalTrackMuted } from '../base/tracks';
+import { MEDIA_TYPE } from '../base/media';
+import { UnmuteVideoDialog } from './components';
 
 MiddlewareRegistry.register(store => next => action => {
     const result = next(action);
@@ -36,6 +39,12 @@ MiddlewareRegistry.register(store => next => action => {
                 reducedUI
                     ? VIDEO_QUALITY_LEVELS.LOW
                     : VIDEO_QUALITY_LEVELS.HIGH));
+
+        // const tracks = state['features/base/tracks'];
+        // if (isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO)) {
+            dispatch(openDialog(UnmuteVideoDialog, { dispatch }));
+        // }
+
 
         break;
     }
